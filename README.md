@@ -2,6 +2,12 @@
 
 เว็บไซต์หนึ่งหน้าสำหรับธุรกิจ B2B สร้างด้วย HTML, CSS และ JavaScript ล้วน ไม่ต้อง build ไม่มี dependency และพร้อม deploy บน static hosting
 
+## ลิงก์ออนไลน์
+
+**Live preview:** https://palmweerakorn2005-dotcom.github.io/shiftup-preview/
+
+โฮสต์บน GitHub Pages จาก repo `palmweerakorn2005-dotcom/shiftup-preview`
+
 ## เปิดดูในเครื่อง
 
 ฟอนต์ถูก self-host และโหลดผ่าน HTTP จึงควรเปิดผ่าน local server ไม่ใช่ double-click `index.html`
@@ -36,12 +42,13 @@ shiftup/
 ## ก่อนเปิดใช้งานจริง — checklist
 
 ### 1. เปลี่ยนโดเมน
-โดเมน `https://shiftup.co.th/` ถูกใช้เป็น placeholder ใน:
+ตอนนี้ canonical/OG/sitemap ชี้ไปที่ `https://palmweerakorn2005-dotcom.github.io/shiftup-preview/` ซึ่งเป็น live preview บน GitHub Pages
+หากจะย้ายไปโดเมนจริง เช่น `shiftup.co.th` ให้แทนที่ URL นี้ใน:
 - `index.html` → canonical, `og:url`, `og:image`, `twitter:image`, JSON-LD
 - `robots.txt` → sitemap URL
 - `sitemap.xml` → loc
 
-ค้นหา `shiftup.co.th` แล้วแทนด้วยโดเมนจริง จากนั้นอัปเดต `lastmod` ใน `sitemap.xml`
+จากนั้นอัปเดต `lastmod` ใน `sitemap.xml`
 
 ### 2. ข้อมูลติดต่อ
 อีเมล `hello@shiftup.co.th` และ LINE `@shiftup` เป็น placeholder
