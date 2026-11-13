@@ -642,63 +642,128 @@
           </p>
         </div>
 
-        <ol class="process-steps">
-          <li class="process-card" data-reveal>
-            <div class="process-card-top">
-              <span class="process-num">01</span>
-              <span class="process-duration">30–60 นาที</span>
-            </div>
-            <span class="process-en">CONSULT</span>
-            <h3>คุยให้เห็นคอขวด</h3>
-            <p>พูดคุยกับทีมที่ทำงานจริง แผนที่ flow และหาจุดที่งานช้าที่สุด ก่อนตัดสินใจใช้เทคโนโลยี</p>
-            <div class="process-deliverable">
-              <span>DELIVERABLE</span>
-              <strong>Bottleneck map<br>Success metrics</strong>
-            </div>
-          </li>
+        <div class="bottleneck-story" id="bottleneck-story">
+          <div class="bottleneck-sticky">
+            <svg class="flow-wiring" aria-hidden="true"></svg>
 
-          <li class="process-card" data-reveal style="--delay: .08s">
-            <div class="process-card-top">
-              <span class="process-num">02</span>
-              <span class="process-duration">2–6 สัปดาห์</span>
-            </div>
-            <span class="process-en">AUTOMATE</span>
-            <h3>แก้ที่จุดที่ช้า</h3>
-            <p>ออกแบบและสร้าง automation เฉพาะคอขวดที่เลือก เริ่มจาก workflow ที่ได้ผลเร็วและวัดผลได้</p>
-            <div class="process-deliverable">
-              <span>DELIVERABLE</span>
-              <strong>Working automation<br>UAT</strong>
-            </div>
-          </li>
+            <div class="bottle-panel">
+              <div class="bottle-visual">
+                <div class="bottle-halo" aria-hidden="true"></div>
 
-          <li class="process-card" data-reveal style="--delay: .16s">
-            <div class="process-card-top">
-              <span class="process-num">03</span>
-              <span class="process-duration">วันส่งมอบ</span>
-            </div>
-            <span class="process-en">DEPLOY</span>
-            <h3>ส่งมอบบน Modal.com</h3>
-            <p>Deploy ระบบขึ้น Modal.com พร้อม secrets, monitoring และทดสอบกับงานจริงก่อนส่งมอบ</p>
-            <div class="process-deliverable">
-              <span>DELIVERABLE</span>
-              <strong>Production deploy<br>Monitoring</strong>
-            </div>
-          </li>
+                <svg class="bottle-svg" viewBox="0 0 340 540" role="img" aria-labelledby="bottle-svg-title bottle-svg-desc">
+                  <title id="bottle-svg-title">ขวดกลับด้านที่มีน้ำติดอยู่ที่คอขวด</title>
+                  <desc id="bottle-svg-desc">เมื่อเลื่อนหน้าลง น้ำจะไหลออกจากคอขวดและแตกเส้นไปยังกระบวนการทำงาน 4 ขั้นของ ShiftUp</desc>
+                  <defs>
+                    <clipPath id="bottleFluidClip">
+                      <path d="M121 76 C121 53 135 40 154 40 H186 C205 40 219 53 219 76 V299 C219 319 212 331 199 344 L188 354 V445 C188 455 185 459 182 461 H158 C155 459 152 455 152 445 V354 L141 344 C128 331 121 319 121 299 Z"/>
+                    </clipPath>
+                    <linearGradient id="bottleFluidFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#e6ff84"/>
+                      <stop offset="0.45" stop-color="#d7ff3f"/>
+                      <stop offset="1" stop-color="#b5df23"/>
+                    </linearGradient>
+                  </defs>
 
-          <li class="process-card process-card--highlight" data-reveal style="--delay: .24s">
-            <div class="process-card-top">
-              <span class="process-num">04</span>
-              <span class="process-duration">30–90 วัน</span>
+                  <g clip-path="url(#bottleFluidClip)">
+                    <g class="bottle-fluid">
+                      <rect x="86" y="205" width="168" height="310" fill="url(#bottleFluidFill)"/>
+                      <path class="fluid-surface" d="M94 207 Q 132 198 170 206 T 246 205"/>
+                      <circle class="fluid-bubble bubble-one" cx="151" cy="292" r="3"/>
+                      <circle class="fluid-bubble bubble-two" cx="188" cy="349" r="2.2"/>
+                      <circle class="fluid-bubble bubble-three" cx="159" cy="402" r="4"/>
+                    </g>
+                  </g>
+
+                  <path class="bottle-outline" d="M112 74 C112 46 128 30 152 30 H188 C212 30 228 46 228 74 V300 C228 324 220 338 206 351 L196 360 V448 C196 462 193 466 190 468 H150 C147 466 144 462 144 448 V360 L134 351 C120 338 112 324 112 300 Z"/>
+                  <path class="glass-line" d="M127 94 V298 M213 94 V298"/>
+                  <path class="bottle-rim" d="M124 51 H216"/>
+                  <path class="bottle-lip" d="M144 454 H196 M148 468 H192"/>
+                  <circle id="bottleMouthPoint" class="bottle-mouth-bead" cx="170" cy="468" r="4"/>
+                </svg>
+
+                <div class="bottleneck-tag" aria-hidden="true">
+                  <i></i>
+                  BOTTLENECK
+                  <small>งานติดตรงนี้</small>
+                </div>
+              </div>
+
+              <div class="bottle-caption">
+                <p>น้ำที่ติดอยู่ คือเวลาที่ธุรกิจเสียไปกับคอขวด.</p>
+                <span>เลื่อนลงเพื่อปล่อยให้ระบบไหลต่อ.</span>
+              </div>
+
+              <div class="story-progress" aria-hidden="true">
+                <div class="story-progress-head">
+                  <span>SCROLL TO RELEASE · FLOW</span>
+                  <strong><span data-story-percent>00</span>%</strong>
+                </div>
+                <div class="story-progress-track"><span data-story-fill></span></div>
+              </div>
             </div>
-            <span class="process-en">AFTERCARE</span>
-            <h3>ดูแลหลังส่งมอบ</h3>
-            <p>ติดตามผล แก้ปัญหา ปรับจูน และสอนทีมให้ใช้ระบบได้เองอย่างมั่นใจ</p>
-            <div class="process-deliverable">
-              <span>DELIVERABLE</span>
-              <strong>Support plan<br>Team handover</strong>
+
+            <div class="story-steps">
+              <div class="story-steps-head">
+                <span>OUR PROCESS</span>
+                <span>04 STEPS / STUCK → SHIPPED</span>
+              </div>
+
+              <ol class="story-step-list" aria-label="กระบวนการทำงานของ ShiftUp">
+                <li class="story-step is-active" data-step="1">
+                  <span class="story-node" aria-hidden="true">01</span>
+                  <div class="story-step-body">
+                    <div class="story-step-head">
+                      <span class="story-step-en">CONSULT</span>
+                      <span class="story-duration">30–60 นาที</span>
+                    </div>
+                    <h3>คุยให้เห็นคอขวด</h3>
+                    <p>พูดคุยกับทีมที่ทำงานจริง แผนที่ flow และหาจุดที่งานช้าที่สุด ก่อนตัดสินใจใช้เทคโนโลยี</p>
+                    <p class="story-output"><span>OUTPUT</span>Bottleneck map · Success metrics</p>
+                  </div>
+                </li>
+
+                <li class="story-step" data-step="2">
+                  <span class="story-node" aria-hidden="true">02</span>
+                  <div class="story-step-body">
+                    <div class="story-step-head">
+                      <span class="story-step-en">AUTOMATE</span>
+                      <span class="story-duration">2–6 สัปดาห์</span>
+                    </div>
+                    <h3>แก้ที่จุดที่ช้า</h3>
+                    <p>ออกแบบและสร้าง automation เฉพาะคอขวดที่เลือก เริ่มจาก workflow ที่ได้ผลเร็วและวัดผลได้</p>
+                    <p class="story-output"><span>OUTPUT</span>Working automation · UAT</p>
+                  </div>
+                </li>
+
+                <li class="story-step" data-step="3">
+                  <span class="story-node" aria-hidden="true">03</span>
+                  <div class="story-step-body">
+                    <div class="story-step-head">
+                      <span class="story-step-en">DEPLOY</span>
+                      <span class="story-duration">วันส่งมอบ</span>
+                    </div>
+                    <h3>ส่งมอบบน Modal.com</h3>
+                    <p>Deploy ระบบขึ้น Modal.com พร้อม secrets, monitoring และทดสอบกับงานจริงก่อนส่งมอบ</p>
+                    <p class="story-output"><span>OUTPUT</span>Production deploy · Monitoring</p>
+                  </div>
+                </li>
+
+                <li class="story-step" data-step="4">
+                  <span class="story-node" aria-hidden="true">04</span>
+                  <div class="story-step-body">
+                    <div class="story-step-head">
+                      <span class="story-step-en">AFTERCARE</span>
+                      <span class="story-duration">30–90 วัน</span>
+                    </div>
+                    <h3>ดูแลหลังส่งมอบ</h3>
+                    <p>ติดตามผล แก้ปัญหา ปรับจูน และสอนทีมให้ใช้ระบบได้เองอย่างมั่นใจ</p>
+                    <p class="story-output"><span>OUTPUT</span>Support plan · Team handover</p>
+                  </div>
+                </li>
+              </ol>
             </div>
-          </li>
-        </ol>
+          </div>
+        </div>
 
         <div class="process-foot" data-reveal>
           <ul>

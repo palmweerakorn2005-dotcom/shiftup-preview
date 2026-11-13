@@ -1825,7 +1825,7 @@ body.menu-open .header-cta {
 }
 
 .manifesto-label {
-  color: rgba(242, 240, 232, 0.42);
+  color: rgba(242, 240, 232, 0.58);
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 0.12em;
@@ -1902,7 +1902,7 @@ body.menu-open .header-cta {
 }
 
 .service-card--automation .service-num {
-  color: rgba(242, 240, 232, 0.44);
+  color: rgba(242, 240, 232, 0.58);
 }
 
 .service-tag {
@@ -2128,7 +2128,7 @@ body.menu-open .header-cta {
 }
 
 .service-card--automation .service-card-foot > span {
-  color: rgba(242, 240, 232, 0.42);
+  color: rgba(242, 240, 232, 0.56);
 }
 
 .service-link {
@@ -2272,7 +2272,7 @@ body.menu-open .header-cta {
   gap: 12px;
   padding: 8px 10px;
   border-bottom: 1px solid rgba(242, 240, 232, 0.12);
-  color: rgba(242, 240, 232, 0.46);
+  color: rgba(242, 240, 232, 0.58);
   font-family: var(--font-mono);
   font-size: 6.5px;
   letter-spacing: 0.06em;
@@ -2319,7 +2319,7 @@ body.menu-open .header-cta {
 
 .term-url {
   padding-left: 14px;
-  color: rgba(242, 240, 232, 0.36) !important;
+  color: rgba(242, 240, 232, 0.56) !important;
 }
 
 .service-card--deploy .service-card-foot,
@@ -2405,7 +2405,6 @@ body.menu-open .header-cta {
    -------------------------------------------------------------------------- */
 
 .process {
-  overflow: hidden;
   background: var(--ink);
   color: var(--paper);
 }
@@ -2414,9 +2413,9 @@ body.menu-open .header-cta {
   content: "";
   position: absolute;
   top: -200px;
-  right: -140px;
-  width: 560px;
-  height: 560px;
+  right: 0;
+  width: min(560px, 100vw);
+  height: min(560px, 100vw);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(215, 255, 63, 0.09), transparent 70%);
   pointer-events: none;
@@ -2452,6 +2451,510 @@ body.menu-open .header-cta {
 
 .process .section-title {
   color: var(--paper);
+}
+
+/* Bottleneck scroll story */
+
+.bottleneck-story {
+  position: relative;
+  margin-top: clamp(46px, 6vw, 84px);
+}
+
+.bottleneck-sticky {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(30px, 6vw, 96px);
+  align-items: center;
+}
+
+.js .bottleneck-story {
+  height: 260vh;
+}
+
+.js .bottleneck-sticky {
+  position: sticky;
+  top: calc(var(--header-h) + 22px);
+  height: clamp(560px, calc(100svh - var(--header-h) - 44px), 820px);
+}
+
+.flow-wiring {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.flow-wiring path,
+.flow-wiring circle {
+  vector-effect: non-scaling-stroke;
+}
+
+.wire-base {
+  fill: none;
+  stroke: rgba(242, 240, 232, 0.12);
+  stroke-width: 1;
+}
+
+.wire-live {
+  fill: none;
+  stroke: var(--lime);
+  stroke-linecap: round;
+  stroke-width: 1.35;
+  filter: drop-shadow(0 0 5px rgba(215, 255, 63, 0.5));
+}
+
+.wire-main {
+  opacity: 0.25;
+  transition: opacity 0.4s ease;
+}
+
+.wire-main.is-lit {
+  opacity: 1;
+  stroke-dasharray: 3 8;
+  animation: wireFlow 1.4s linear infinite;
+}
+
+.wire-rail {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.wire-branch {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.25;
+  transition: stroke-dashoffset 0.55s var(--ease-out), opacity 0.3s ease;
+}
+
+.wire-branch.is-lit {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.wire-dot {
+  fill: var(--lime);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(215, 255, 63, 0.85));
+  transition: opacity 0.25s ease;
+}
+
+.wire-dot.is-lit {
+  opacity: 1;
+}
+
+.wire-junction {
+  fill: var(--ink);
+  stroke: var(--lime);
+  stroke-width: 1.2;
+}
+
+@keyframes wireFlow {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+.bottle-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottle-visual {
+  position: relative;
+  width: min(82%, 355px);
+  isolation: isolate;
+}
+
+.bottle-halo {
+  position: absolute;
+  top: 7%;
+  left: 6%;
+  width: 88%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(215, 255, 63, 0.16), transparent 63%),
+    radial-gradient(circle at 50% 50%, rgba(242, 240, 232, 0.035), transparent 70%);
+  filter: blur(7px);
+}
+
+.bottle-halo::after {
+  content: "";
+  position: absolute;
+  inset: 11%;
+  border: 1px dashed rgba(215, 255, 63, 0.17);
+  border-radius: 50%;
+  animation: haloSpin 48s linear infinite;
+}
+
+@keyframes haloSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bottle-svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 30px 45px rgba(0, 0, 0, 0.42));
+}
+
+.bottle-outline {
+  fill: rgba(242, 240, 232, 0.015);
+  stroke: rgba(242, 240, 232, 0.83);
+  stroke-width: 1.8;
+}
+
+.glass-line {
+  fill: none;
+  stroke: rgba(242, 240, 232, 0.18);
+  stroke-width: 1;
+}
+
+.bottle-rim,
+.bottle-lip {
+  fill: none;
+  stroke: rgba(242, 240, 232, 0.66);
+  stroke-width: 1.2;
+}
+
+.bottle-fluid {
+  transform: translateY(calc(var(--story-progress, 0) * 235px));
+  will-change: transform;
+}
+
+.bottle-fluid rect {
+  filter: drop-shadow(0 0 20px rgba(215, 255, 63, 0.22));
+}
+
+.fluid-surface {
+  fill: none;
+  stroke: #f2ffac;
+  stroke-width: 1.5;
+  opacity: 0.8;
+}
+
+.fluid-bubble {
+  fill: rgba(12, 15, 11, 0.24);
+  animation: bubbleRise 4s ease-in-out infinite;
+}
+
+.bubble-two {
+  animation-delay: -1.3s;
+}
+
+.bubble-three {
+  animation-delay: -2.4s;
+}
+
+@keyframes bubbleRise {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.55;
+    transform: translateY(-11px);
+  }
+}
+
+.bottle-mouth-bead {
+  fill: var(--lime);
+  filter: drop-shadow(0 0 8px rgba(215, 255, 63, 0.8));
+  animation: pulse 2.1s ease-in-out infinite;
+}
+
+.bottleneck-tag {
+  position: absolute;
+  top: 74%;
+  left: calc(50% + 68px);
+  z-index: 3;
+  padding: 7px 9px;
+  border: 1px solid rgba(215, 255, 63, 0.34);
+  border-radius: 5px;
+  background: rgba(12, 15, 11, 0.9);
+  color: var(--lime);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.bottleneck-tag i {
+  position: absolute;
+  top: 16px;
+  right: calc(100% + 1px);
+  width: 38px;
+  height: 1px;
+  border-top: 1px dashed rgba(215, 255, 63, 0.48);
+}
+
+.bottleneck-tag i::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--lime);
+}
+
+.bottleneck-tag small {
+  display: block;
+  margin-top: 2px;
+  color: rgba(242, 240, 232, 0.62);
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.bottle-caption {
+  position: relative;
+  z-index: 1;
+  max-width: 350px;
+  margin-top: 2px;
+  text-align: center;
+}
+
+.bottle-caption p {
+  color: rgba(242, 240, 232, 0.8);
+  font-size: clamp(12px, 1.15vw, 14px);
+  line-height: 1.55;
+}
+
+.bottle-caption > span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(242, 240, 232, 0.6);
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+
+.story-progress {
+  position: relative;
+  z-index: 1;
+  width: min(290px, 80%);
+  margin-top: 22px;
+}
+
+.story-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: rgba(242, 240, 232, 0.58);
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+}
+
+.story-progress-head strong {
+  color: var(--lime);
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.story-progress-track {
+  height: 2px;
+  margin-top: 7px;
+  overflow: hidden;
+  background: rgba(242, 240, 232, 0.14);
+}
+
+.story-progress-track > span {
+  display: block;
+  width: calc(var(--story-progress, 0) * 100%);
+  height: 100%;
+  background: var(--lime);
+  box-shadow: 0 0 8px rgba(215, 255, 63, 0.6);
+}
+
+.story-steps {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 690px;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  justify-self: end;
+}
+
+.story-steps-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 8px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid rgba(242, 240, 232, 0.14);
+  color: rgba(242, 240, 232, 0.56);
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.09em;
+  line-height: 1.4;
+}
+
+.story-step-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.story-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  column-gap: 17px;
+  align-items: start;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(242, 240, 232, 0.12);
+  background-color: transparent;
+  transition: background-color 0.35s ease;
+}
+
+.story-step.is-active {
+  background-color: rgba(215, 255, 63, 0.055);
+}
+
+.story-node {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  margin-top: 2px;
+  place-items: center;
+  border: 1px solid rgba(242, 240, 232, 0.25);
+  border-radius: 50%;
+  color: rgba(242, 240, 232, 0.54);
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  line-height: 1;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.story-step.is-done .story-node {
+  border-color: rgba(215, 255, 63, 0.6);
+  color: var(--lime);
+}
+
+.story-step.is-active .story-node {
+  border-color: var(--lime);
+  background: var(--lime);
+  color: var(--ink);
+  box-shadow: 0 0 0 6px rgba(215, 255, 63, 0.08);
+}
+
+.story-step-body {
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.story-step-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.story-step-en {
+  color: rgba(242, 240, 232, 0.62);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.story-step.is-active .story-step-en {
+  color: var(--lime);
+}
+
+.story-duration {
+  padding: 3px 6px;
+  border: 1px solid rgba(242, 240, 232, 0.18);
+  border-radius: 999px;
+  color: rgba(242, 240, 232, 0.58);
+  font-family: var(--font-mono);
+  font-size: 5.8px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.story-step h3 {
+  margin-top: 5px;
+  color: rgba(242, 240, 232, 0.93);
+  font-size: clamp(19px, 1.7vw, 24px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+  transition: color 0.3s ease;
+}
+
+.story-step.is-active h3 {
+  color: var(--lime);
+}
+
+.story-step p:not(.story-output) {
+  max-width: 540px;
+  margin-top: 4px;
+  color: rgba(242, 240, 232, 0.68);
+  font-size: 11.5px;
+  line-height: 1.58;
+}
+
+.story-step.is-active p:not(.story-output) {
+  color: rgba(242, 240, 232, 0.82);
+}
+
+.story-output {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 6px;
+  color: rgba(242, 240, 232, 0.55);
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+}
+
+.story-output span {
+  padding: 2px 5px;
+  border: 1px solid rgba(242, 240, 232, 0.18);
+  border-radius: 999px;
+  color: rgba(242, 240, 232, 0.55);
+  font-size: 5.2px;
+  line-height: 1.3;
+}
+
+.process-foot {
+  margin-top: clamp(28px, 4vw, 52px);
 }
 
 .process-steps {
@@ -5616,6 +6119,129 @@ input[type="range"]:focus-visible {
   }
 }
 
+@media (max-width: 900px) {
+  .js .bottleneck-story {
+    height: auto;
+  }
+
+  .js .bottleneck-sticky {
+    position: relative;
+    top: auto;
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+
+  .flow-wiring {
+    display: none;
+  }
+
+  .bottle-panel {
+    margin: 0 auto 38px;
+  }
+
+  .bottle-visual {
+    width: min(260px, 68vw);
+  }
+
+  .bottleneck-tag {
+    top: 73%;
+    right: 0;
+    left: auto;
+    padding: 6px 8px;
+    font-size: 6.5px;
+  }
+
+  .bottleneck-tag i {
+    display: none;
+  }
+
+  .bottleneck-tag small {
+    font-size: 7.5px;
+  }
+
+  .bottle-caption {
+    max-width: 320px;
+  }
+
+  .story-progress {
+    width: min(260px, 80%);
+    margin-top: 18px;
+  }
+
+  .story-steps {
+    height: auto;
+    max-width: 680px;
+  }
+
+  .story-steps-head {
+    margin-top: 4px;
+  }
+
+  .story-step {
+    grid-template-columns: 30px minmax(0, 1fr);
+    column-gap: 13px;
+    padding: 15px 0;
+  }
+
+  .story-node {
+    width: 30px;
+    height: 30px;
+    font-size: 7px;
+  }
+
+  .story-step h3 {
+    font-size: 20px;
+  }
+
+  .story-step p:not(.story-output) {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .story-step-list {
+    position: relative;
+  }
+
+  .story-step-list::before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    bottom: 17px;
+    left: 15px;
+    width: 1px;
+    opacity: 0.4;
+    background: linear-gradient(var(--lime), rgba(242, 240, 232, 0.08));
+  }
+}
+
+@media (max-width: 600px) {
+  .story-steps-head > span:last-child {
+    display: none;
+  }
+
+  .bottle-caption p {
+    font-size: 12px;
+  }
+
+  .bottleneck-story {
+    margin-top: 34px;
+  }
+
+  .story-step h3 {
+    font-size: 19px;
+  }
+
+  .story-step-en {
+    font-size: 6.5px;
+  }
+
+  .story-output {
+    flex-wrap: wrap;
+    font-size: 5.8px;
+  }
+}
+
 @media (max-width: 360px) {
   .eyebrow-sep {
     display: none;
@@ -5677,5 +6303,35 @@ input[type="range"]:focus-visible {
   .js .hero-visual {
     opacity: 1;
     animation: none;
+  }
+
+  .js .bottleneck-story {
+    height: auto;
+  }
+
+  .js .bottleneck-sticky {
+    position: relative;
+    top: auto;
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+
+  .flow-wiring,
+  .story-progress {
+    display: none;
+  }
+
+  .bottle-panel {
+    margin: 0 auto 34px;
+  }
+
+  .bottle-fluid {
+    transform: none;
+  }
+
+  .story-steps {
+    height: auto;
+    max-width: none;
   }
 }

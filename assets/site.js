@@ -609,6 +609,262 @@
   });
 
   /* ------------------------------------------------------------------------
+     Bottleneck scroll story
+     ------------------------------------------------------------------------ */
+
+  const bottleneckStory = $("#bottleneck-story");
+
+  if (bottleneckStory) initBottleneckStory(bottleneckStory);
+
+  function initBottleneckStory(story) {
+    const stage = $(".bottleneck-sticky", story);
+    const steps = $$(".story-step", story);
+    const wiring = $(".flow-wiring", story);
+    const bottleSvg = $(".bottle-svg", story);
+    const percentOutput = $("[data-story-percent]", story);
+    const desktopQuery = window.matchMedia("(min-width: 901px)");
+
+    if (!stage || !steps.length || !wiring || !bottleSvg) return;
+
+    if (prefersReducedMotion) {
+      story.classList.add("is-static");
+      return;
+    }
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const thresholds = [0, 0.3, 0.58, 0.84];
+    let activeIndex = -1;
+    let currentProgress = 0;
+    let lastPercent = -1;
+    let wiringData = null;
+    let rafId = 0;
+    let resizeTimer = 0;
+    let storyHeight = 0;
+    let stageHeight = 0;
+    let stickyTop = 0;
+
+    function clamp(value, min = 0, max = 1) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function createSvgElement(tag, attributes = {}) {
+      const element = document.createElementNS(svgNS, tag);
+      for (const [name, value] of Object.entries(attributes)) {
+        element.setAttribute(name, value);
+      }
+      return element;
+    }
+
+    function measureStory() {
+      storyHeight = story.offsetHeight;
+      stageHeight = stage.offsetHeight;
+      stickyTop = parseFloat(window.getComputedStyle(stage).top) || 0;
+    }
+
+    function updateBranchClasses() {
+      if (!wiringData) return;
+      wiringData.branches.forEach((path, index) => {
+        const isLit = index < activeIndex || (index === activeIndex && currentProgress > 0.015);
+        path.classList.toggle("is-lit", isLit);
+      });
+    }
+
+    function setActiveStep(index) {
+      if (index === activeIndex) return;
+      activeIndex = index;
+
+      steps.forEach((step, stepIndex) => {
+        const isActive = stepIndex === index;
+        step.classList.toggle("is-active", isActive);
+        step.classList.toggle("is-done", stepIndex < index);
+        if (isActive) step.setAttribute("aria-current", "step");
+        else step.removeAttribute("aria-current");
+      });
+
+      updateBranchClasses();
+    }
+
+    function updateProgress(progress) {
+      currentProgress = clamp(progress);
+
+      if (Math.abs(currentProgress - (Number(story.dataset.renderedProgress) || 0)) > 0.0005) {
+        story.dataset.renderedProgress = currentProgress.toFixed(4);
+        story.style.setProperty("--story-progress", currentProgress.toFixed(4));
+      }
+
+      const percent = Math.round(currentProgress * 100);
+      if (percent !== lastPercent) {
+        lastPercent = percent;
+        if (percentOutput) percentOutput.textContent = String(percent).padStart(2, "0");
+      }
+
+      if (!wiringData) return;
+
+      const isFlowing = currentProgress > 0.015;
+      wiringData.main.classList.toggle("is-lit", isFlowing);
+      wiringData.dot.classList.toggle("is-lit", isFlowing);
+      wiringData.rail.style.strokeDashoffset = String(1 - currentProgress);
+
+      const dotY = wiringData.railTop + (wiringData.railBottom - wiringData.railTop) * currentProgress;
+      wiringData.dot.setAttribute("cx", wiringData.railX.toFixed(1));
+      wiringData.dot.setAttribute("cy", dotY.toFixed(1));
+
+      updateBranchClasses();
+    }
+
+    function buildWiring() {
+      if (!desktopQuery.matches || prefersReducedMotion) {
+        wiring.innerHTML = "";
+        wiringData = null;
+        return;
+      }
+
+      const stageRect = stage.getBoundingClientRect();
+      const bottleRect = bottleSvg.getBoundingClientRect();
+      const nodeRects = steps.map((step) => {
+        const node = $(".story-node", step);
+        return node ? node.getBoundingClientRect() : null;
+      });
+
+      if (nodeRects.some((rect) => !rect) || stageRect.width < 600) {
+        wiring.innerHTML = "";
+        wiringData = null;
+        return;
+      }
+
+      const startX = bottleRect.left - stageRect.left + bottleRect.width * (170 / 340);
+      const startY = bottleRect.top - stageRect.top + bottleRect.height * (468 / 540);
+      const nodes = nodeRects.map((rect) => ({
+        x: rect.left - stageRect.left + rect.width / 2,
+        y: rect.top - stageRect.top + rect.height / 2,
+      }));
+
+      const nodeEdge = nodeRects[0].width / 2;
+      const railX = Math.min(...nodes.map((node) => node.x)) - 64;
+      const railTop = nodes[0].y - 17;
+      const railBottom = nodes[nodes.length - 1].y + 17;
+
+      if (railX < startX + 40 || railX < 12) {
+        wiring.innerHTML = "";
+        wiringData = null;
+        return;
+      }
+
+      wiring.innerHTML = "";
+      wiring.setAttribute("viewBox", `0 0 ${stageRect.width} ${stageRect.height}`);
+      wiring.setAttribute("preserveAspectRatio", "none");
+
+      const connectionY = clamp(startY, railTop + 16, railBottom - 16);
+      const mainD = `M ${startX.toFixed(1)} ${startY.toFixed(1)} C ${(startX + 54).toFixed(1)} ${startY.toFixed(1)}, ${(railX - 54).toFixed(1)} ${connectionY.toFixed(1)}, ${railX.toFixed(1)} ${connectionY.toFixed(1)}`;
+      const railD = `M ${railX.toFixed(1)} ${railTop.toFixed(1)} L ${railX.toFixed(1)} ${railBottom.toFixed(1)}`;
+
+      wiring.appendChild(createSvgElement("path", { d: mainD, class: "wire-base" }));
+      wiring.appendChild(createSvgElement("path", { d: railD, class: "wire-base" }));
+
+      const branchBasePaths = nodes.map((node) =>
+        createSvgElement("path", {
+          d: `M ${railX.toFixed(1)} ${node.y.toFixed(1)} L ${(node.x - nodeEdge).toFixed(1)} ${node.y.toFixed(1)}`,
+          class: "wire-base",
+        })
+      );
+      branchBasePaths.forEach((path) => wiring.appendChild(path));
+
+      const main = createSvgElement("path", { d: mainD, class: "wire-live wire-main" });
+      wiring.appendChild(main);
+
+      const rail = createSvgElement("path", {
+        d: railD,
+        class: "wire-live wire-rail",
+        pathLength: "1",
+      });
+      wiring.appendChild(rail);
+
+      const branches = nodes.map((node, index) => {
+        const path = createSvgElement("path", {
+          d: `M ${railX.toFixed(1)} ${node.y.toFixed(1)} L ${(node.x - nodeEdge).toFixed(1)} ${node.y.toFixed(1)}`,
+          class: "wire-live wire-branch",
+          pathLength: "1",
+          "data-step": String(index + 1),
+        });
+        wiring.appendChild(path);
+        return path;
+      });
+
+      const junction = createSvgElement("circle", {
+        cx: railX.toFixed(1),
+        cy: connectionY.toFixed(1),
+        r: "3",
+        class: "wire-junction",
+      });
+      wiring.appendChild(junction);
+
+      const dot = createSvgElement("circle", {
+        cx: railX.toFixed(1),
+        cy: railTop.toFixed(1),
+        r: "3.6",
+        class: "wire-dot",
+      });
+      wiring.appendChild(dot);
+
+      wiringData = { main, rail, branches, dot, railX, railTop, railBottom };
+      updateProgress(currentProgress);
+    }
+
+    function updateStory(force = false) {
+      if (prefersReducedMotion) return;
+
+      if (desktopQuery.matches) {
+        const travel = Math.max(1, storyHeight - stageHeight);
+        const progress = clamp((stickyTop - story.getBoundingClientRect().top) / travel);
+        let stepIndex = 0;
+        thresholds.forEach((threshold, index) => {
+          if (progress >= threshold) stepIndex = index;
+        });
+        setActiveStep(stepIndex);
+        updateProgress(progress);
+      } else {
+        const triggerLine = window.innerHeight * 0.52;
+        let stepIndex = 0;
+        steps.forEach((step, index) => {
+          if (step.getBoundingClientRect().top <= triggerLine) stepIndex = index;
+        });
+        setActiveStep(stepIndex);
+        updateProgress(stepIndex / Math.max(1, steps.length - 1));
+      }
+
+      if (force) updateProgress(currentProgress);
+    }
+
+    function scheduleUpdate() {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        updateStory();
+      });
+    }
+
+    function rebuild() {
+      measureStory();
+      buildWiring();
+      updateStory(true);
+    }
+
+    setActiveStep(0);
+    measureStory();
+    buildWiring();
+    updateStory(true);
+
+    document.fonts?.ready.then(rebuild);
+    window.addEventListener("load", rebuild);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(rebuild, 160);
+    });
+    desktopQuery.addEventListener?.("change", rebuild);
+  }
+
+  /* ------------------------------------------------------------------------
      Footer utilities
      ------------------------------------------------------------------------ */
 

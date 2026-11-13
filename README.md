@@ -39,7 +39,7 @@ shiftup/
 ├── index.html              # เนื้อหาทั้งหมด + SEO / structured data
 ├── assets/
 │   ├── site.css            # design system, layout, responsive styles
-│   ├── site.js             # nav, tabs, FAQ, calculator, form
+│   ├── site.js             # nav, tabs, FAQ, calculator, form, scroll story
 │   ├── fonts.css           # @font-face declarations
 │   ├── fonts/              # self-hosted woff2 + licenses
 │   ├── favicon.svg
@@ -49,6 +49,19 @@ shiftup/
 ├── serve.cmd               # local preview สำหรับ Windows
 └── README.md
 ```
+
+## Interactive bottleneck story
+
+Section `#approach` มี scroll story แบบ sticky: ขวดกลับด้านที่มีน้ำติดอยู่ที่คอขวด จะค่อย ๆ ปล่อยน้ำออกเมื่อผู้ใช้เลื่อนหน้า และมีเส้น SVG เชื่อมจากปากขวดไปยัง 4 ขั้นตอนของ ShiftUp
+
+- ฉากหลัก: `.bottleneck-story` ใน `index.html`
+- ความคืบหน้าขับด้วย CSS variable `--story-progress`
+- เส้นเชื่อมสร้างจากตำแหน่งจริงของขวดและ step nodes ใน `assets/site.js` จึงปรับตาม breakpoint ได้
+- จังหวะของแต่ละ step อยู่ที่ `thresholds` ใน `initBottleneckStory()` (ปัจจุบัน `0, 0.3, 0.58, 0.84`)
+- ความยาวช่วง scroll อยู่ที่ `.js .bottleneck-story { height: 260vh; }`
+- ต่ำกว่า 900px จะเปลี่ยนเป็น stacked timeline และปิดเส้น SVG
+- `prefers-reduced-motion` จะปิด sticky/progress และแสดงเนื้อหาแบบนิ่ง
+- อย่าใส่ `overflow: hidden` บน `.process` เพราะจะทำให้ `position: sticky` ทำงานผิด
 
 ## ก่อนเปิดใช้งานจริง — checklist
 
