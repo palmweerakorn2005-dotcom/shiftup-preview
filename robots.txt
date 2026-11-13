@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://palmweerakorn2005-dotcom.github.io/shiftup-preview/sitemap.xml
+Sitemap: https://www.shiftupth.com/sitemap.xml

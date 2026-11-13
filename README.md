@@ -4,9 +4,11 @@
 
 ## ลิงก์ออนไลน์
 
-**Live preview:** https://palmweerakorn2005-dotcom.github.io/shiftup-preview/
+**Live preview:** https://www.shiftupth.com/
 
-โฮสต์บน GitHub Pages จาก repo `palmweerakorn2005-dotcom/shiftup-preview`
+> ใช้ URL ที่มี `www` — apex `shiftupth.com` ยังต้องเพิ่ม A record ของ GitHub Pages (185.199.108.153–111.153) ที่ DNS ก่อน
+>
+> โฮสต์บน GitHub Pages จาก repo `palmweerakorn2005-dotcom/shiftup-preview`
 
 ## Positioning & delivery model
 
@@ -66,7 +68,7 @@ Section `#approach` มี scroll story แบบ sticky: ขวดกลับ�
 ## ก่อนเปิดใช้งานจริง — checklist
 
 ### 1. เปลี่ยนโดเมน
-ตอนนี้ canonical/OG/sitemap ชี้ไปที่ `https://palmweerakorn2005-dotcom.github.io/shiftup-preview/` ซึ่งเป็น live preview บน GitHub Pages
+ตอนนี้ canonical/OG/sitemap ชี้ไปที่ `https://www.shiftupth.com/` ซึ่งเป็น live preview บน GitHub Pages
 หากจะย้ายไปโดเมนจริง เช่น `shiftup.co.th` ให้แทนที่ URL นี้ใน:
 - `index.html` → canonical, `og:url`, `og:image`, `twitter:image`, JSON-LD
 - `robots.txt` → sitemap URL
