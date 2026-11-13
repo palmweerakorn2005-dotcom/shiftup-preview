@@ -359,7 +359,7 @@
 
   $("[data-calc-cta]")?.addEventListener("click", (event) => {
     event.preventDefault();
-    prepareContact("AI Opportunity Audit");
+    prepareContact("Bottleneck Audit");
   });
 
   /* ------------------------------------------------------------------------

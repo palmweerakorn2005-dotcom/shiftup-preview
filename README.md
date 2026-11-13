@@ -8,6 +8,17 @@
 
 โฮสต์บน GitHub Pages จาก repo `palmweerakorn2005-dotcom/shiftup-preview`
 
+## Positioning & delivery model
+
+ShiftUp เป็น **bottleneck-first AI automation consultancy** สำหรับธุรกิจ B2B
+
+- หา **bottleneck** หรือคอขวดที่กินเวลาและขึ้นกับคนก่อน
+- ออกแบบและสร้าง automation เฉพาะจุดนั้น
+- deploy ระบบ production บน **Modal.com**
+- มี **aftercare** ดูแลหลังส่งมอบ
+
+บริการหลักบนเว็บ: Bottleneck Audit → AI Automation Build → Modal.com Deployment → Aftercare & Enablement
+
 ## เปิดดูในเครื่อง
 
 ฟอนต์ถูก self-host และโหลดผ่าน HTTP จึงควรเปิดผ่าน local server ไม่ใช่ double-click `index.html`
@@ -57,6 +68,7 @@ shiftup/
 - ถ้าไม่ใส่ `lineUrl` ปุ่ม LINE จะทำหน้าที่คัดลอก LINE ID แทน
 
 ### 3. เชื่อมฟอร์มกับ backend
+ตัวเลือกในฟอร์มสะท้อนบริการปัจจุบัน: Bottleneck Audit, AI Automation Build, Modal.com Deployment และ Aftercare & Enablement
 ค่าเริ่มต้นฟอร์มจะเปิดแอปอีเมลของผู้ใช้พร้อมข้อความที่กรอกไว้ (ไม่มีการเก็บข้อมูลบนเว็บ) ซึ่งทำงานได้ทันทีแต่อาจไม่เหมาะกับ conversion ในระยะยาว
 
 หากต้องการให้ส่งจากหน้าเว็บโดยตรง ให้ใส่ endpoint ใน `assets/site.js`:
@@ -74,7 +86,9 @@ Use case ทั้ง 3 เคสเป็น **ตัวอย่างขอ�
 - แทนที่ด้วยเคสและตัวเลขที่ตรวจสอบได้ หรือ
 - คงสถานะเป็น illustrative ตามเดิม
 
-ส่วนคำสัญญาด้านเวลา เช่น “ระบบแรกใน 3–6 สัปดาห์” ควรปรับให้ตรงกับ delivery model จริง
+ส่วนคำสัญญาด้านเวลา เช่น “ระบบแรกใน 3–6 สัปดาห์” และกรอบ aftercare 30–90 วัน ควรปรับให้ตรงกับ delivery model จริง
+
+บริการ deploy ระบุว่าใช้ Modal.com เป็นแพลตฟอร์มหลัก หากทีมต้องการเปลี่ยนผู้ให้บริการ hosting หรือมีข้อจำกัดด้าน compliance ควรแก้ข้อความใน `index.html` ส่วนบริการ กระบวนการ และ FAQ ให้สอดคล้องกัน
 
 ### 5. Legal / PDPA
 ตรวจ Privacy Notice ให้ตรงกับวิธีเก็บข้อมูลจริงหลังเชื่อม backend และเพิ่มชื่อนิติบุคคล ที่อยู่ และช่องทางใช้สิทธิ์ตามที่กฎหมายกำหนด หากมี analytics หรือ cookie ต้องอัปเดต notice และเพิ่ม consent ตามความเหมาะสม
