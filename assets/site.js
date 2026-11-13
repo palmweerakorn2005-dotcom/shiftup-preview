@@ -6,9 +6,8 @@
     contactEmail: "hello@shiftup.co.th",
     // ใส่ URL ของ LINE OA (เช่น https://lin.ee/xxxx) เมื่อพร้อมใช้งาน
     lineUrl: "",
-    // ถ้าต้องการเชื่อมฟอร์มกับ backend/Formspree ให้ใส่ endpoint ที่นี่
-    // รูปแบบที่คาดหวัง: รับ POST JSON แล้วตอบกลับด้วย HTTP 2xx
-    contactEndpoint: "",
+    // Cloudflare Worker relay: ส่งฟอร์มเข้า Telegram ของทีม ShiftUp
+    contactEndpoint: "https://shiftup-telegram-leads.palmweerakorn2005.workers.dev",
     automationRate: 0.6,
     workingHoursPerMonth: 160,
   };
@@ -455,6 +454,7 @@
         line: String(data.get("line") || "").trim(),
         topic: String(data.get("topic") || "").trim(),
         message: String(data.get("message") || "").trim(),
+        website: String(data.get("website") || "").trim(),
       };
 
       const subject = `[ShiftUp] ${payload.topic} — ${payload.company}`;
@@ -513,6 +513,9 @@
 
     const kicker = $(".form-kicker", formSuccess);
     if (kicker && CONFIG.contactEndpoint) kicker.textContent = "MESSAGE RECEIVED";
+
+    const successActions = $(".success-actions", formSuccess);
+    if (successActions && CONFIG.contactEndpoint) successActions.hidden = true;
 
     form.hidden = true;
     formSuccess.hidden = false;

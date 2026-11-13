@@ -4305,6 +4305,16 @@ input[type="range"]:focus-visible {
   margin-top: 20px;
 }
 
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

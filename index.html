@@ -1359,6 +1359,11 @@
             </div>
 
             <form id="contact-form" class="contact-form" aria-labelledby="form-title" novalidate>
+              <div class="hp-field" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+
               <div class="form-row">
                 <div class="form-field">
                   <label for="name">ชื่อ–นามสกุล <span>*</span></label>
@@ -1421,7 +1426,7 @@
               </button>
               <p class="form-note">
                 <svg class="icon"><use href="#i-arrow-r"/></svg>
-                ฟอร์มจะเปิดแอปอีเมลของคุณเพื่อส่งข้อความโดยตรง — ข้อมูลจะถูกส่งเมื่อคุณกดส่งในอีเมลเท่านั้น
+                ข้อมูลฟอร์มจะถูกส่งให้ทีม ShiftUp โดยตรง และแจ้งเตือนผ่าน Telegram ทันที
               </p>
               <noscript><p class="form-note">หาก JavaScript ถูกปิด กรุณาส่งอีเมลมาที่ hello@shiftup.co.th</p></noscript>
             </form>
@@ -1518,7 +1523,7 @@
     </div>
     <div class="privacy-body">
       <p>ข้อมูลที่คุณส่งผ่านฟอร์มนี้ ได้แก่ ชื่อ อีเมล บริษัท LINE ID และรายละเอียดโจทย์ จะถูกใช้เพื่อติดต่อกลับและประเมินความเป็นไปได้ของความร่วมมือเท่านั้น</p>
-      <p>ฟอร์มนี้ไม่บันทึกข้อมูลลงเซิร์ฟเวอร์ของเว็บไซต์โดยตรง. เมื่อคุณกดส่ง ระบบจะเปิดแอปอีเมลของคุณ และข้อมูลจะถูกส่งก็ต่อเมื่อคุณยืนยันการส่งอีเมลแล้วเท่านั้น</p>
+      <p>เมื่อคุณกดส่ง ข้อมูลฟอร์มจะถูกส่งผ่าน Cloudflare Worker ไปยัง Telegram ของทีม ShiftUp เพื่อแจ้งเตือนและติดต่อกลับ. ข้อมูลอาจถูกประมวลผลโดยผู้ให้บริการโครงสร้างพื้นฐาน (Cloudflare และ Telegram) เท่าที่จำเป็นสำหรับการส่งข้อความนี้เท่านั้น</p>
       <p>เราไม่ขายหรือเปิดเผยข้อมูลของคุณให้บุคคลที่สามเพื่อวัตถุประสงค์ทางการตลาด. คุณสามารถขอเข้าถึง แก้ไข หรือลบข้อมูลได้โดยติดต่อ <a href="mailto:hello@shiftup.co.th">hello@shiftup.co.th</a></p>
       <p class="privacy-updated">อัปเดตล่าสุด: พฤศจิกายน 2569</p>
     </div>

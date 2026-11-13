@@ -82,19 +82,23 @@ Section `#approach` มี scroll story แบบ sticky: ขวดกลับ�
 - ใส่ URL ของ LINE OA ใน `assets/site.js` → `CONFIG.lineUrl` เช่น `https://lin.ee/xxxx`
 - ถ้าไม่ใส่ `lineUrl` ปุ่ม LINE จะทำหน้าที่คัดลอก LINE ID แทน
 
-### 3. เชื่อมฟอร์มกับ backend
-ตัวเลือกในฟอร์มสะท้อนบริการปัจจุบัน: Bottleneck Audit, AI Automation Build, Modal.com Deployment และ Aftercare & Enablement
-ค่าเริ่มต้นฟอร์มจะเปิดแอปอีเมลของผู้ใช้พร้อมข้อความที่กรอกไว้ (ไม่มีการเก็บข้อมูลบนเว็บ) ซึ่งทำงานได้ทันทีแต่อาจไม่เหมาะกับ conversion ในระยะยาว
+### 3. ฟอร์ม → Telegram
+ฟอร์มเชื่อมกับ Cloudflare Worker:
+`https://shiftup-telegram-leads.palmweerakorn2005.workers.dev`
 
-หากต้องการให้ส่งจากหน้าเว็บโดยตรง ให้ใส่ endpoint ใน `assets/site.js`:
-```js
-contactEndpoint: "https://your-api.example.com/contact"
-```
-Endpoint ต้องรองรับ `POST` แบบ JSON:
+เมื่อมีลูกค้ากรอกฟอร์ม Worker จะส่งข้อความแจ้งเตือนเข้า Telegram ของทีม ShiftUp ทันที โดย token และ chat ID ถูกเก็บเป็น Cloudflare secrets ไม่ได้อยู่ในเว็บหรือ repo สาธารณะ
+
+โค้ดและคู่มือของ Worker อยู่ในโฟลเดอร์ `shiftup-bot/` **นอกเว็บไซต์** (ไม่ถูก deploy ไป GitHub Pages)
+
+ตัวเลือกในฟอร์มสะท้อนบริการปัจจุบัน: Bottleneck Audit, AI Automation Build, Modal.com Deployment และ Aftercare & Enablement
+
+Endpoint รับ `POST` แบบ JSON:
 ```json
-{ "name": "...", "company": "...", "email": "...", "line": "...", "topic": "...", "message": "..." }
+{ "name": "...", "company": "...", "email": "...", "line": "...", "topic": "...", "message": "...", "website": "" }
 ```
-และตอบกลับด้วย HTTP 2xx พร้อมเปิด CORS สำหรับโดเมนเว็บไซต์ แนะนำ Formspree, Basin, Cloudflare Worker หรือ API ภายในองค์กร
+`website` เป็น honeypot ต้องเว้นว่างไว้
+
+หากต้องการเปลี่ยน backend ให้แก้ `CONFIG.contactEndpoint` ใน `assets/site.js` และตรวจ CORS ของ backend ให้อนุญาต `https://www.shiftupth.com`
 
 ### 4. ตัวเลขและเคส
 Use case ทั้ง 3 เคสเป็น **ตัวอย่างขอบเขตงานและเป้าหมายผลลัพธ์** ไม่ใช่ผลงานที่อ้างอิงลูกค้าจริง และมีป้าย `ILLUSTRATIVE` กับข้อความ disclaimer อยู่ในหน้าเว็บแล้ว ก่อน launch ควร:
@@ -106,7 +110,8 @@ Use case ทั้ง 3 เคสเป็น **ตัวอย่างขอ�
 บริการ deploy ระบุว่าใช้ Modal.com เป็นแพลตฟอร์มหลัก หากทีมต้องการเปลี่ยนผู้ให้บริการ hosting หรือมีข้อจำกัดด้าน compliance ควรแก้ข้อความใน `index.html` ส่วนบริการ กระบวนการ และ FAQ ให้สอดคล้องกัน
 
 ### 5. Legal / PDPA
-ตรวจ Privacy Notice ให้ตรงกับวิธีเก็บข้อมูลจริงหลังเชื่อม backend และเพิ่มชื่อนิติบุคคล ที่อยู่ และช่องทางใช้สิทธิ์ตามที่กฎหมายกำหนด หากมี analytics หรือ cookie ต้องอัปเดต notice และเพิ่ม consent ตามความเหมาะสม
+Privacy Notice ระบุแล้วว่าข้อมูลฟอร์มถูกส่งผ่าน Cloudflare Worker ไปยัง Telegram ของทีม ShiftUp และอาจถูกประมวลผลโดยผู้ให้บริการโครงสร้างพื้นฐานเท่าที่จำเป็น
+ก่อนใช้งานจริงควรเพิ่มชื่อนิติบุคคล ที่อยู่ และช่องทางใช้สิทธิ์ตามกฎหมาย และตรวจว่า Telegram/Cloudflare สอดคล้องกับนโยบายข้อมูลขององค์กร หากมี analytics หรือ cookie ต้องอัปเดต notice และ consent ตามความเหมาะสม
 
 ### 6. Analytics (ถ้าต้องการ)
 ยังไม่มี tracking script ในเว็บ หากเพิ่ม Google Analytics / Plausible / Meta Pixel ควรวางก่อน `</head>` หรือก่อน `</body>` ตามผู้ให้บริการ และอัปเดต Privacy Notice
